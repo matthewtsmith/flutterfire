@@ -374,9 +374,15 @@ class FirebaseAuthWeb extends FirebaseAuthPlatform {
     try {
       _confirmationResult =
           await firebase.auth().signInWithPhoneNumber(phoneNumber, verifier);
+      verifier.clear();
+      window.document.getElementById('recaptcha-container').remove();
     } on AuthException catch (e) {
+      verifier.clear();
+      window.document.getElementById('recaptcha-container').remove();
       verificationFailed(e);
     } catch (error) {
+      verifier.clear();
+      window.document.getElementById('recaptcha-container').remove();
       verificationFailed(AuthException('verificationFailed', error.toString()));
     }
     if (_confirmationResult != null) {
